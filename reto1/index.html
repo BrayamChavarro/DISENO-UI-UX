@@ -1,128 +1,97 @@
 <!DOCTYPE html>
 <html lang="es">
-<!-- Documento HTML5 en español -->
+
 
 <head>
   <meta charset="UTF-8">
-  <!-- Define la codificación de caracteres UTF-8 para admitir caracteres especiales -->
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Permite que el diseño sea responsivo -->
-  <title>Gestión Paises del mundo</title>
-  <!-- Título que aparece en la pestaña del navegador -->
+  <title>Rutopia</title>
   <link rel="stylesheet" href="style.css">
-  <!-- Vincula la hoja de estilos externa -->
 </head>
 
 <body>
-  <!-- Cuerpo principal del documento -->
-  <header>
-    <!-- Encabezado de la página -->
-    <nav class="navbar">
-      <!-- Barra de navegación -->
-      <div class="logo-container">
-        <!-- Contenedor para el logo y el título -->
-        <img src="assets/images/planeta.png" alt="planetas" class="logo">
-        <!-- Logo de la liga -->
-        <h1>Paises del mundo</h1>
-        <!-- Título de la liga -->
-      </div>
-      <ul class="nav-links">
-        <!-- Lista de enlaces de navegación -->
-        <li><a href="#paisForm">Agregar Pais</a></li>
-        <li><a href="#ciudad-form">Agregar Ciudad</a></li>
-        <li><a href="#search-section">Buscar</a></li>
-        <li><a href="#player-list">Ciudades</a></li>
-        <li><a href="#team-list">Paises</a></li>
-      </ul>
-    </nav>
-  </header>
+  <!-- Formulario de Login -->
+  <div id="loginContainer" class="section">
+    <h2>Iniciar Sesión</h2>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Usuario" required>
+      <input type="password" id="password" placeholder="Contraseña" required>
+      <button type="submit">Entrar</button>
+    </form>
+    <p id="loginError" style="color:red; display:none;">Usuario o contraseña incorrectos</p>
+  </div>
 
-  <main>
-    <!-- Contenido principal -->
+  <div id="mainContent" style="display:none;">
+    <header>
+      <nav>
+        <ul style="display:flex; gap:20px; list-style:none; padding:0;">
+          <li><a href="#ciudadForm">Agregar Ciudad</a></li>
+          <li><a href="#hotel-form">Agregar Hotel</a></li>
+          <li><a href="#city-list">Lista de Ciudades</a></li>
+          <li><a href="#hotel-list">Lista de Hoteles</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <!-- Formulario para agregar ciudad -->
+      <section id="ciudadForm" class="section">
+        <h2>Agregar Ciudad</h2>
+        <form id="addCiudadForm">
+          <input type="text" id="ciudadName" placeholder="Nombre de la ciudad" required>
+          <input type="file" id="ciudadLogo" accept="image/*">
+          <button type="submit">Agregar Ciudad</button>
+        </form>
+      </section>
 
-    <!-- Formulario para agregar paises -->
-    <section id="paisForm" class="section">
-      <h2>Agregar Pais</h2>
-      <form id="addPaisForm">
-        <!-- Formulario para equipo -->
-        <input type="text" id="paisName" placeholder="Nombre del pais" required>
-        <!-- Nombre del equipo -->
-        <input type="file" id="paisLogo" accept="image/*">
-        <!-- Carga del logo -->
-        <button type="submit">Agregar Pais</button>
-        <!-- Botón para crear -->
-      </form>
-    </section>
+      <!-- Formulario para agregar hoteles -->
+      <section id="hotel-form" class="section">
+        <h2>Agregar Hotel</h2>
+        <form id="addHotelForm">
+          <input type="text" id="hotelName" placeholder="Nombre del hotel" required>
+          <input type="text" id="hotelPostal" placeholder="Código postal" required>
+          <select id="hotelCapital" required>
+            <option value="">¿Es capital?</option>
+            <option value="Si">Si</option>
+            <option value="No">No</option>
+          </select>
+          <select id="hotelCiudad">
+            <option value="">Seleccione una ciudad</option>
+          </select>
+          <input type="file" id="hotelPhoto" accept="image/*">
+          <button type="submit">Agregar Hotel</button>
+        </form>
+      </section>
 
-    <!-- Formulario para agregar ciudades -->
-    <section id="ciudad-form" class="section">
-      <h2>Agregar Ciudad</h2>
-      <form id="addCiudadForm">
-        <!-- Formulario de jugador -->
-        <input type="text" id="ciudadName" placeholder="Nombre de la ciudad" required>
-        <!-- Campo para el nombre -->
-        <input type="text" id="ciudadCapital" placeholder="Código postal" required>
-        <!-- Campo para la edad -->
-        <select id="ciudadPosition" required>
-          <!-- Opciones de posición se generarán dinámicamente -->
-          <option value="">Seleccione si es capital</option>
-        </select>
-        <select id="ciudadPais">
-          <!-- Selección de equipo -->
-          <option value="">Seleccione un pais</option>
-        </select>
-        <input type="file" id="ciudadPhoto" accept="image/*">
-        <!-- Carga de foto -->
-        <button type="submit">Agregar Ciudad</button>
-        <!-- Botón para agregar -->
-      </form>
-    </section>
+      <!-- Lista de ciudades -->
+      <section id="city-list" class="section">
+        <h2>Lista de Ciudades</h2>
+        <div id="ciudadCardsContainer"></div>
+      </section>
 
-    <!-- Búsqueda -->
-    <section id="search-section" class="section">
-      <h2>Buscar</h2>
-      <input type="text" id="searchInput" placeholder="Buscar jugadores o equipos">
-      <!-- Campo de búsqueda -->
-      <button id="searchButton">Buscar</button>
-      <!-- Botón de búsqueda -->
-    </section>
-
-    <!-- Lista de paises -->
-    <section id="team-list" class="section">
-      <h2>Lista de Paises</h2>
-      <div id="paisCardsContainer">
-        <!-- Contenedor de tarjetas de paises -->
-      </div>
-    </section>
-
-    <!-- Lista de ciudades -->
-    <section id="player-list" class="section">
-      <h2>Lista de Ciudades</h2>
-      <table>
-        <!-- Tabla de jugadores -->
-        <thead>
-          <tr>
-            <th>Foto</th>
-            <th>Nombre</th>
-            <th>Codigo postal</th>
-            <th>¿Es capital?</th>
-            <th>Pais</th>
-          </tr>
-        </thead>
-        <tbody id="ciudadTableBody">
-          <!-- Cuerpo de la tabla -->
-        </tbody>
-      </table>
-    </section>
-  </main>
-
-  <footer>
-    <!-- Pie de página -->
-    <p>&copy; 2025 paises</p>
-    <!-- Derechos reservados -->
-  </footer>
+      <!-- Lista de hoteles -->
+      <section id="hotel-list" class="section">
+        <h2>Lista de Hoteles</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Foto</th>
+              <th>Nombre</th>
+              <th>Código postal</th>
+              <th>¿Es capital?</th>
+              <th>Ciudad</th>
+            </tr>
+          </thead>
+          <tbody id="hotelTableBody"></tbody>
+        </table>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2025 Ciudades y Hoteles</p>
+    </footer>
+  </div>
   <script src="script.js"></script>
-  <!-- Enlace al script JavaScript -->
+ 
 </body>
 
 </html>
