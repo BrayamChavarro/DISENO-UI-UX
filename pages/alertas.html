@@ -1,11 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+    <!DOCTYPE html>
+    <html lang="es">
+    <!-- Documento HTML5 en español -->
+
+    <head>
+      <meta charset="UTF-8">
+      <!-- Define la codificación de caracteres UTF-8 para admitir caracteres especiales -->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <!-- Permite que el diseño sea responsivo -->
+      <title>Rutopia</title>
+      <!-- Título que aparece en la pestaña del navegador -->
+      <link rel="stylesheet" href="../css/alertas.css">
+      <!-- Vincula la hoja de estilos externa -->
+    </head>
+
+    <body>
+      <!-- Cuerpo principal del documento -->
+      <header>
+      
+        <section id="alertas-section" class="section">
+          <h2>Configuración de Alertas</h2>
+          <div class="alertas-setting">
+          <label for="toggle-alertas">Recibir alertas de zonas de riesgo:</label>
+          <label class="switch">
+          <input type="checkbox" id="toggle-alertas" checked>
+          <span class="slider round"></span>
+          </label>
+          </div>
+ 
+          <div id="alertas-display">
+          <h3>Alertas Recibidas:</h3>
+          <div class="alertas-message">
+          <h4>Alerta de Seguridad</h4>
+          <p>Te estás aproximando a una zona con alto índice de robos. Por favor, mantén tus pertenencias seguras.</p>
+          </div>
+          <div class="alertas-message">
+          <h4>Alerta de Tráfico</h4>
+          <p>Se ha reportado un bloqueo de carretera más adelante. Considera tomar una ruta alternativa.</p>
+          </div>
+          </div>
+          </section>
+
     
-</body>
-</html>
+
+      <script src="../js/alertas.js"></script>
+      <!-- Enlace al script JavaScript -->
+    </body>
+
+    </html>
+<!-- Fin del documento HTML -->
