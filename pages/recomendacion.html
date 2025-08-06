@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RECOMENDACIONES DE VIAJE - RUTOPIA</title>
+    <link rel="stylesheet" href="../css/recomendacion.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo-container">
+                <img src="assets/images/logo.png" alt="Logo Rutopia" class="logo">
+                <h1>RECOMENDACIONES DE VIAJE</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#destinations">Destinos</a></li>
+                <li><a href="#itinerary">Mi Itinerario</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="header">
+                <h2>¡Hola, Bienvenido a RUTOPIA!</h2>
+                <p>Aquí tienes destinos y actividades sugeridas en Colombia, adaptadas a tus gustos e historial de viajes.</p>
+            </div>
+
+            <section id="user-preferences">
+                <h2 class="section-title">¿Qué tipo de viaje buscas?</h2>
+                <div class="preferences-buttons">
+                    <button class="btn preference-btn" data-preference="all">Todos</button>
+                    <button class="btn preference-btn" data-preference="cultura">Cultura</button>
+                    <button class="btn preference-btn" data-preference="naturaleza">Naturaleza</button>
+                    <button class="btn preference-btn" data-preference="aventura">Aventura</button>
+                </div>
+            </section>
+
+            <section id="destinations">
+                <h2 class="section-title">Destinos Recomendados</h2>
+                <div class="destinations-grid" id="destinations-container">
+                    </div>
+            </section>
+
+            <section id="details-view" style="display: none;">
+                <button class="btn btn-back">← Volver a Destinos</button>
+                <div id="details-content">
+                    </div>
+            </section>
+
+            <section id="itinerary" style="display: none;">
+                <h2 class="section-title">Mi Itinerario Guardado</h2>
+                <div id="itinerary-content">
+                    <p>Aún no has guardado ninguna recomendación.</p>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <div id="notification" class="notification-container"></div>
+
+    <footer>
+        <p>&copy; 2025 Rutopia - Tu Guía de Viajes en Colombia</p>
+    </footer>
+
+    <script src="../js/recomendacion.js"></script>
+</body>
+</html>
