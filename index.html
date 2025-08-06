@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rutopia</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Formulario de Login -->
+  <div id="loginContainer" class="section">
+    <h2>Iniciar Sesión</h2>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Usuario" required>
+      <input type="password" id="password" placeholder="Contraseña" required>
+      <button type="submit">Entrar</button>
+    </form>
+    <p id="loginError" style="color:red; display:none;">Usuario o contraseña incorrectos</p>
+  </div>
+
+  <div id="mainContent" style="display:none;">
+    <header>
+      <nav>
+        <ul style="display:flex; gap:20px; list-style:none; padding:0;">
+          <li><a href="#ciudadForm">Agregar Ciudad</a></li>
+          <li><a href="#hotel-form">Agregar Hotel</a></li>
+          <li><a href="#city-list">Lista de Ciudades</a></li>
+          <li><a href="#hotel-list">Lista de Hoteles</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <!-- Formulario para agregar ciudad -->
+      <section id="ciudadForm" class="section">
+        <h2>Agregar Ciudad</h2>
+        <form id="addCiudadForm">
+          <input type="text" id="ciudadName" placeholder="Nombre de la ciudad" required>
+          <input type="file" id="ciudadLogo" accept="image/*">
+          <button type="submit">Agregar Ciudad</button>
+        </form>
+      </section>
+
+      <!-- Formulario para agregar hoteles -->
+      <section id="hotel-form" class="section">
+        <h2>Agregar Hotel</h2>
+        <form id="addHotelForm">
+          <input type="text" id="hotelName" placeholder="Nombre del hotel" required>
+          <input type="text" id="hotelPostal" placeholder="Código postal" required>
+          <select id="hotelCapital" required>
+            <option value="">¿Es capital?</option>
+            <option value="Si">Si</option>
+            <option value="No">No</option>
+          </select>
+          <select id="hotelCiudad">
+            <option value="">Seleccione una ciudad</option>
+          </select>
+          <input type="file" id="hotelPhoto" accept="image/*">
+          <button type="submit">Agregar Hotel</button>
+        </form>
+      </section>
+
+      <!-- Lista de ciudades -->
+      <section id="city-list" class="section">
+        <h2>Lista de Ciudades</h2>
+        <div id="ciudadCardsContainer"></div>
+      </section>
+
+      <!-- Lista de hoteles -->
+      <section id="hotel-list" class="section">
+        <h2>Lista de Hoteles</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Foto</th>
+              <th>Nombre</th>
+              <th>Código postal</th>
+              <th>¿Es capital?</th>
+              <th>Ciudad</th>
+            </tr>
+          </thead>
+          <tbody id="hotelTableBody"></tbody>
+        </table>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2025 Ciudades y Hoteles</p>
+    </footer>
+  </div>
+  <script src="script.js"></script>
+ 
+</body>
+
+</html>
