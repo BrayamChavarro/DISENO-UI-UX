@@ -1,129 +1,424 @@
 /* General */
 body {
-    font-family: Arial, sans-serif; /* Define la fuente general para la página */
-    margin: 0; /* Elimina los márgenes predeterminados del navegador */
-    padding: 0; /* Elimina los rellenos predeterminados */
-    box-sizing: border-box; /* Asegura que el padding y los bordes se incluyan en el tamaño total del elemento */
-    background-color: #f4f4f4; /* Fondo gris claro para toda la página */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, #f8fbff 0%, #e8f4f8 100%);
+    min-height: 100vh;
+    color: #151F30;
 }
 
 /* Encabezado */
 header {
-    background-color: #3a3f44; /* Color de fondo azul del encabezado */
-    color: #fff; /* Texto blanco para contraste */
-    padding: 10px 20px; /* Espaciado interno del encabezado */
+    background: linear-gradient(135deg, #103778 0%, #151F30 100%);
+    color: #fff;
+    padding: 15px 30px;
+    box-shadow: 0 4px 12px rgba(21, 31, 48, 0.15);
+    position: sticky; /* Opcional: mantiene el header fijo al hacer scroll */
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas más pequeñas */
+    gap: 15px; /* Espacio por si se envuelve */
 }
 
 .logo-container {
-    display: flex; /* Flexbox para alinear elementos en fila */
-    align-items: center; /* Centra los elementos verticalmente */
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-container h1 {
+    color: #0593A2;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
-    width: 50px; /* Ancho del logo */
-    margin-right: 10px; /* Espaciado a la derecha del logo */
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(5, 147, 162, 0.3);
 }
 
 /* Barra de navegación */
 .nav-links {
-    list-style: none; /* Elimina los puntos de las listas */
-    display: flex; /* Muestra los elementos en fila */
-    justify-content: flex-end; /* Alinea los enlaces al final */
-    padding: 0; /* Elimina el padding de la lista */
-    margin: 0; /* Elimina el margen de la lista */
-}
-
-.nav-links li {
-    margin: 0 10px; /* Espaciado entre los elementos de la lista */
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0;
+    margin: 0;
+    gap: 25px;
 }
 
 .nav-links a {
-    text-decoration: none; /* Elimina el subrayado de los enlaces */
-    color: #fff; /* Color de los enlaces en blanco */
-    font-weight: bold; /* Resalta los enlaces */
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 10px 16px;
+    border-radius: 25px;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Transiciones específicas */
+}
+
+.nav-links a:hover {
+    background-color: #0593A2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(5, 147, 162, 0.4);
 }
 
 /* Secciones */
 .section {
-    padding: 20px; /* Espaciado interno para las secciones */
-    margin: 20px; /* Espaciado externo para separar las secciones */
-    background-color: #fff; /* Fondo blanco para contraste */
-    border-radius: 8px; /* Esquinas redondeadas */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil para destacar */
+    padding: 30px;
+    margin: 25px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(21, 31, 48, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* Para mayor compatibilidad de navegadores */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(21, 31, 48, 0.15);
+}
+
+.section h2 {
+    color: #103778;
+    font-size: 1.6rem;
+    margin-top: 0; /* Elimina margen superior para mejor alineación */
+    margin-bottom: 20px;
+    font-weight: 700;
+    position: relative;
+}
+
+.section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, #0593A2, #FF7A48);
+    border-radius: 2px;
 }
 
 /* Formularios */
-form input, form select, form button {
-    display: block; /* Cada elemento ocupa una línea completa */
-    width: 100%; /* Ocupa todo el ancho del contenedor */
-    margin-bottom: 15px; /* Espaciado entre campos */
-    padding: 10px; /* Espaciado interno en los campos */
-    font-size: 1rem; /* Tamaño de fuente estándar */
-    border: 1px solid #ddd; /* Borde gris claro */
-    border-radius: 4px; /* Esquinas redondeadas */
+form input, form select {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 14px 18px;
+    font-size: 1rem;
+    border: 2px solid #e0e8f0;
+    border-radius: 12px;
+    font-family: inherit;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; /* Transiciones específicas */
+    background-color: #fff;
+    color: #151F30;
+}
+
+form input:focus, form select:focus {
+    outline: none;
+    border-color: #0593A2;
+    box-shadow: 0 0 0 3px rgba(5, 147, 162, 0.1);
+    transform: translateY(-1px);
+}
+
+form input::placeholder {
+    color: #8892a0;
+}
+
+/* Contenedor de búsqueda */
+.search-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 15px;
+    align-items: end;
+}
+
+.search-container #searchInput {
+    border-color: #0593A2;
+    background: linear-gradient(145deg, #fff 0%, #f0f8ff 100%);
+}
+
+.search-container #searchInput:focus {
+    border-color: #FF7A48;
+    box-shadow: 0 0 0 3px rgba(255, 122, 72, 0.1);
+}
+
+.search-buttons {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
 }
 
 /* Botones */
-button {
-    background-color: #2c3135; /* Fondo azul para los botones */
-    color: #fff; /* Texto blanco para contraste */
-    border: none; /* Elimina el borde */
-    border-radius: 4px; /* Esquinas redondeadas */
-    padding: 10px 20px; /* Espaciado interno */
-    cursor: pointer; /* Muestra un puntero para indicar clic */
-    font-size: 1rem; /* Tamaño de fuente estándar */
+button, .button { /* Clase genérica por si se usa en enlaces <a> */
+    display: inline-block; /* Permite aplicar padding y margin correctamente */
+    background: linear-gradient(135deg, #0593A2 0%, #103778 100%);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 28px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Transiciones específicas */
+    box-shadow: 0 4px 16px rgba(5, 147, 162, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
 }
 
-button:hover {
-    background-color: #414850; /* Fondo más oscuro al pasar el cursor */
+button:hover, .button:hover {
+    background: linear-gradient(135deg, #FF7A48 0%, #E3371E 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 122, 72, 0.4);
+}
+
+button:active, .button:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(5, 147, 162, 0.3); /* Restaura sombra para efecto de presión */
+}
+
+/* Botones específicos */
+#searchButton {
+    background: linear-gradient(135deg, #FF7A48 0%, #E3371E 100%);
+    box-shadow: 0 4px 16px rgba(255, 122, 72, 0.3);
+}
+
+#searchButton:hover {
+    background: linear-gradient(135deg, #0593A2 0%, #103778 100%);
+    box-shadow: 0 8px 25px rgba(5, 147, 162, 0.4);
+}
+
+#clearFiltersButton {
+    background: linear-gradient(135deg, #8892a0 0%, #6c757d 100%);
+    box-shadow: 0 4px 16px rgba(136, 146, 160, 0.3);
+}
+
+#clearFiltersButton:hover {
+    background: linear-gradient(135deg, #E3371E 0%, #FF7A48 100%);
+    box-shadow: 0 8px 25px rgba(227, 55, 30, 0.4);
 }
 
 /* Tablas */
+.table-container { /* Contenedor para hacer la tabla responsive */
+    overflow-x: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(21, 31, 48, 0.1);
+}
+
 table {
-    width: 100%; /* Tabla ocupa todo el ancho del contenedor */
-    border-collapse: collapse; /* Elimina los espacios entre celdas */
-    margin-top: 20px; /* Espaciado superior */
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
 }
 
 table th, table td {
-    border: 1px solid #ddd; /* Bordes gris claro */
-    padding: 8px; /* Espaciado interno en celdas */
-    text-align: left; /* Alineación de texto a la izquierda */
+    padding: 15px 12px;
+    text-align: left;
+    border-bottom: 1px solid #e8f0fe;
 }
 
 table th {
-    background-color: #3f474e; /* Fondo azul para encabezados */
-    color: #fff; /* Texto blanco para contraste */
+    background: linear-gradient(135deg, #103778 0%, #151F30 100%);
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
 }
 
-/* Tarjetas de equipos */
-#teamCardsContainer {
-    display: flex; /* Flexbox para las tarjetas */
-    flex-wrap: wrap; /* Permite que las tarjetas se ajusten en múltiples filas */
-    gap: 15px; /* Espaciado entre tarjetas */
+table tbody tr {
+    transition: background-color 0.3s ease;
 }
 
-.team-card {
-    border: 1px solid #ddd; /* Borde gris claro */
-    border-radius: 8px; /* Esquinas redondeadas */
-    padding: 15px; /* Espaciado interno */
-    width: 200px; /* Ancho fijo para las tarjetas */
-    text-align: center; /* Texto centrado */
-    background-color: #fff; /* Fondo blanco */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+table tbody tr:hover {
+    background-color: #f0f8ff;
 }
 
-.team-card img {
-    max-width: 100%; /* La imagen no excede el ancho de la tarjeta */
-    border-radius: 50%; /* Hace que la imagen sea circular */
+table tbody tr:nth-child(even) {
+    background-color: #fafbfc;
+}
+
+table tbody tr:nth-child(even):hover {
+    background-color: #f0f8ff; /* Asegura consistencia en hover */
+}
+
+table img {
+    width: 50px; /* Tamaño fijo para consistencia */
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #0593A2;
+    transition: transform 0.3s ease;
+    vertical-align: middle; /* Mejor alineación vertical */
+}
+
+table img:hover {
+    transform: scale(1.15);
+}
+
+/* Badges de categorías */
+.categoria-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    color: #fff; /* Color por defecto */
+}
+
+/* Colores específicos para cada categoría */
+.categoria-badge.estrella1 { background: linear-gradient(135deg, #E3371E, #FF7A48); }
+.categoria-badge.estrellas2 { background: linear-gradient(135deg, #FF7A48, #FFA500); }
+.categoria-badge.estrellas3 { background: linear-gradient(135deg, #FFA500, #FFD700); color: #151F30; }
+.categoria-badge.estrellas4 { background: linear-gradient(135deg, #FFD700, #0593A2); color: #151F30; }
+.categoria-badge.estrellas5 { background: linear-gradient(135deg, #0593A2, #103778); }
+.categoria-badge.hostal { background: linear-gradient(135deg, #8892a0, #6c757d); }
+.categoria-badge.resort { background: linear-gradient(135deg, #103778, #151F30); }
+.categoria-badge.boutique { background: linear-gradient(135deg, #E3371E, #103778); }
+
+/* Contador de resultados */
+.results-counter {
+    margin-top: 15px;
+    padding: 10px;
+    background: rgba(5, 147, 162, 0.1);
+    border-radius: 8px;
+    border-left: 4px solid #0593A2;
+}
+
+/* Tarjetas de países/ciudades */
+#paisCardsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    padding: 20px 0;
+}
+
+.pais-card {
+    background: linear-gradient(145deg, #fff 0%, #f8fbff 100%);
+    border: 2px solid rgba(5, 147, 162, 0.1);
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(21, 31, 48, 0.08);
+    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease; /* Transiciones específicas */
+    position: relative;
+    overflow: hidden;
+}
+
+.pais-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(5, 147, 162, 0.1), transparent);
+    transform: translateX(-100%); /* Más performante que animar 'left' */
+    transition: transform 0.6s ease;
+}
+
+.pais-card:hover::before {
+    transform: translateX(100%);
+}
+
+.pais-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(21, 31, 48, 0.15);
+    border-color: rgba(5, 147, 162, 0.3);
+}
+
+.pais-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #0593A2;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; /* Transiciones específicas */
+    box-shadow: 0 4px 20px rgba(5, 147, 162, 0.2);
+}
+
+.pais-card:hover img {
+    transform: scale(1.1);
+    border-color: #FF7A48;
+    box-shadow: 0 6px 25px rgba(255, 122, 72, 0.3);
+}
+
+.pais-card h3 {
+    color: #103778;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 0 1px 3px rgba(21, 31, 48, 0.1);
 }
 
 /* Pie de página */
 footer {
-    text-align: center; /* Centra el texto del pie de página */
-    padding: 10px 20px; /* Espaciado interno */
-    background-color: #3d4752; /* Fondo azul */
-    color: #fff; /* Texto blanco */
-    margin-top: 20px; /* Espaciado superior */
+    text-align: center;
+    padding: 25px 30px;
+    background: linear-gradient(135deg, #151F30 0%, #103778 100%);
+    color: #fff;
+    margin-top: 40px;
+    font-size: 0.9rem;
+    border-top: 3px solid #0593A2;
 }
 
+footer::before {
+    content: '✈️ 🏨 🌍';
+    display: block;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    opacity: 0.7;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .nav-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .section {
+        margin: 15px;
+        padding: 20px;
+    }
+    
+    #paisCardsContainer {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .search-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .search-buttons {
+        flex-direction: column;
+    }
+}

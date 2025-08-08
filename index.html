@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
-<!-- Documento HTML5 en español -->
 
 <head>
   <meta charset="UTF-8">
   <!-- Define la codificación de caracteres UTF-8 para admitir caracteres especiales -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Permite que el diseño sea responsivo -->
-  <title>Gestión Paises del mundo</title>
+  <title>Gestión de Hoteles</title>
   <!-- Título que aparece en la pestaña del navegador -->
   <link rel="stylesheet" href="style.css">
   <!-- Vincula la hoja de estilos externa -->
@@ -23,16 +22,17 @@
         <!-- Contenedor para el logo y el título -->
         <img src="assets/images/planeta.png" alt="planetas" class="logo">
         <!-- Logo de la liga -->
-        <h1>Paises del mundo</h1>
-        <!-- Título de la liga -->
+        <h1>Gestión de Hoteles</h1>
+        <!-- Título de la aplicación -->
       </div>
       <ul class="nav-links">
         <!-- Lista de enlaces de navegación -->
-        <li><a href="#paisForm">Agregar Pais</a></li>
-        <li><a href="#ciudad-form">Agregar Ciudad</a></li>
+        <li><a href="#paisForm">Agregar Ciudad/País</a></li>
+        <li><a href="#ciudad-form">Agregar Hotel</a></li>
         <li><a href="#search-section">Buscar</a></li>
-        <li><a href="#player-list">Ciudades</a></li>
-        <li><a href="#team-list">Paises</a></li>
+        <li><a href="#player-list">Hoteles</a></li>
+        <li><a href="#team-list">Ciudades/Países</a></li>
+        <li><a href="pages/perfil.html">👤 Mi Perfil</a></li>
       </ul>
     </nav>
   </header>
@@ -40,73 +40,89 @@
   <main>
     <!-- Contenido principal -->
 
-    <!-- Formulario para agregar paises -->
+    <!-- Formulario para agregar ciudades/países -->
     <section id="paisForm" class="section">
-      <h2>Agregar Pais</h2>
+      <h2>Agregar Ciudad/País</h2>
       <form id="addPaisForm">
-        <!-- Formulario para equipo -->
-        <input type="text" id="paisName" placeholder="Nombre del pais" required>
-        <!-- Nombre del equipo -->
+        <!-- Formulario para ciudad/país -->
+        <input type="text" id="paisName" placeholder="Nombre de la ciudad/país" required>
+        <!-- Nombre de la ciudad/país -->
         <input type="file" id="paisLogo" accept="image/*">
         <!-- Carga del logo -->
-        <button type="submit">Agregar Pais</button>
+        <button type="submit">Agregar Ciudad/País</button>
         <!-- Botón para crear -->
       </form>
     </section>
 
-    <!-- Formulario para agregar ciudades -->
+    <!-- Formulario para agregar hoteles -->
     <section id="ciudad-form" class="section">
-      <h2>Agregar Ciudad</h2>
+      <h2>Agregar Hotel</h2>
       <form id="addCiudadForm">
-        <!-- Formulario de jugador -->
-        <input type="text" id="ciudadName" placeholder="Nombre de la ciudad" required>
+        <!-- Formulario de hotel -->
+        <input type="text" id="ciudadName" placeholder="Nombre del hotel" required>
         <!-- Campo para el nombre -->
-        <input type="text" id="ciudadCapital" placeholder="Código postal" required>
-        <!-- Campo para la edad -->
+        <input type="text" id="ciudadCapital" placeholder="Dirección" required>
+        <!-- Campo para la dirección -->
         <select id="ciudadPosition" required>
-          <!-- Opciones de posición se generarán dinámicamente -->
-          <option value="">Seleccione si es capital</option>
+          <!-- Opciones de categoría se generarán dinámicamente -->
+          <option value="">Seleccione la categoría</option>
         </select>
         <select id="ciudadPais">
-          <!-- Selección de equipo -->
-          <option value="">Seleccione un pais</option>
+          <!-- Selección de ciudad/país -->
+          <option value="">Seleccione una ciudad/país</option>
         </select>
         <input type="file" id="ciudadPhoto" accept="image/*">
         <!-- Carga de foto -->
-        <button type="submit">Agregar Ciudad</button>
+        <button type="submit">Agregar Hotel</button>
         <!-- Botón para agregar -->
       </form>
     </section>
 
     <!-- Búsqueda -->
     <section id="search-section" class="section">
-      <h2>Buscar</h2>
-      <input type="text" id="searchInput" placeholder="Buscar jugadores o equipos">
-      <!-- Campo de búsqueda -->
-      <button id="searchButton">Buscar</button>
+      <h2>Buscar Hoteles</h2>
+      <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Buscar hoteles por nombre o ubicación">
+        <!-- Campo de búsqueda -->
+        
+        <select id="categoryFilter">
+          <option value="">Todas las categorías</option>
+          <!-- Las opciones se cargarán dinámicamente -->
+        </select>
+        
+        <select id="locationFilter">
+          <option value="">Todas las ubicaciones</option>
+          <!-- Las opciones se cargarán dinámicamente -->
+        </select>
+        
+        <div class="search-buttons">
+          <button id="searchButton">🔍 Buscar</button>
+          <button id="clearFiltersButton" type="button">🗑️ Limpiar Filtros</button>
+        </div>
+      </div>
       <!-- Botón de búsqueda -->
     </section>
 
-    <!-- Lista de paises -->
+    <!-- Lista de ciudades/países -->
     <section id="team-list" class="section">
-      <h2>Lista de Paises</h2>
+      <h2>Lista de Ciudades/Países</h2>
       <div id="paisCardsContainer">
-        <!-- Contenedor de tarjetas de paises -->
+        <!-- Contenedor de tarjetas de ciudades/países -->
       </div>
     </section>
 
-    <!-- Lista de ciudades -->
+    <!-- Lista de hoteles -->
     <section id="player-list" class="section">
-      <h2>Lista de Ciudades</h2>
+      <h2>Lista de Hoteles</h2>
       <table>
-        <!-- Tabla de jugadores -->
+        <!-- Tabla de hoteles -->
         <thead>
           <tr>
             <th>Foto</th>
             <th>Nombre</th>
-            <th>Codigo postal</th>
-            <th>¿Es capital?</th>
-            <th>Pais</th>
+            <th>Dirección</th>
+            <th>Categoría</th>
+            <th>Ciudad/País</th>
           </tr>
         </thead>
         <tbody id="ciudadTableBody">
@@ -118,11 +134,8 @@
 
   <footer>
     <!-- Pie de página -->
-    <p>&copy; 2025 paises</p>
+    <p>&copy; 2025 Gestión de Hoteles</p>
     <!-- Derechos reservados -->
   </footer>
   <script src="script.js"></script>
   <!-- Enlace al script JavaScript -->
-</body>
-
-</html>
