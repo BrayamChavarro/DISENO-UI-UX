@@ -1,403 +1,293 @@
-<<<<<<< HEAD
-// Listas para almacenar datos de hoteles y ciudades/países
-const hoteles = []; // Lista de hoteles
-const ciudadesPaises = []; // Lista de ciudades/países
+// =================================================================
+// 1. ESTADO Y CONSTANTES DE LA APLICACIÓN
+// =================================================================
 
-// Lista de categorías de hoteles
-const categorias = [
-    "1 Estrella",
-    "2 Estrellas", 
-    "3 Estrellas",
-    "4 Estrellas",
-    "5 Estrellas",
-    "Hostal",
-    "Resort",
-    "Boutique"
+// Listas para almacenar los datos principales de la aplicación
+const hoteles = [];
+const ciudadesPaises = [];
+
+// Lista de categorías de hoteles (constante, ya que no cambia)
+const CATEGORIAS_HOTELES = [
+    "1 Estrella", "2 Estrellas", "3 Estrellas",
+    "4 Estrellas", "5 Estrellas", "Hostal",
+    "Resort", "Boutique"
 ];
 
-// Carga las categorías en el formulario
-function loadPositions() {
-    const positionSelect = document.getElementById("ciudadPosition"); // Obtiene el elemento select para las categorías
-    positionSelect.innerHTML = `<option value="">Seleccione la categoría</option>`; // Agrega la opción predeterminada
-    categorias.forEach(categoria => {
-        const option = document.createElement("option"); // Crea un elemento de opción
-        option.value = categoria; // Establece el valor de la opción
-        option.textContent = categoria; // Establece el texto visible de la opción
-        positionSelect.appendChild(option); // Agrega la opción al selector
-    });
+// Credenciales para el inicio de sesión (ejemplo)
+const USER_CREDENTIALS = {
+    username: 'admin',
+    password: '123'
+};
+
+// =================================================================
+// 2. FUNCIONES DE RENDERIZADO Y ACTUALIZACIÓN DEL DOM
+// =================================================================
+
+/**
+ * Rellena un elemento <select> con opciones.
+ * @param {HTMLElement} selectElement - El elemento <select> a rellenar.
+ * @param {string[]} options - El array de strings para las opciones.
+ * @param {string} defaultOptionText - El texto para la primera opción deshabilitada.
+ */
+function populateSelect(selectElement, options, defaultOptionText) {
+    if (!selectElement) return;
+    // Construir el HTML de las opciones y asignarlo una sola vez para mejor rendimiento
+    const optionsHTML = options.map(option => `<option value="${option}">${option}</option>`).join('');
+    selectElement.innerHTML = `<option value="">${defaultOptionText}</option>${optionsHTML}`;
 }
 
-// Carga las ciudades/países en el selector del formulario de hoteles
-function updatePaisSelect() {
-    const paisSelect = document.getElementById("ciudadPais"); // Obtiene el elemento select para las ciudades/países
-    paisSelect.innerHTML = `<option value="">Seleccione una ciudad/país</option>`; // Agrega la opción predeterminada
-    ciudadesPaises.forEach(ciudadPais => {
-        const option = document.createElement("option"); // Crea un elemento de opción
-        option.value = ciudadPais.paisName; // Establece el valor de la opción como el nombre de la ciudad/país
-        option.textContent = ciudadPais.paisName; // Establece el texto visible como el nombre de la ciudad/país
-        paisSelect.appendChild(option); // Agrega la opción al selector
-    });
-    
-    // También actualiza el filtro de ubicaciones en la búsqueda
-    updateLocationFilter();
+/**
+ * Carga las categorías de hoteles en los selectores correspondientes.
+ */
+function loadHotelCategories() {
+    populateSelect(document.getElementById("hotelCategoria"), CATEGORIAS_HOTELES, "Seleccione la categoría");
+    populateSelect(document.getElementById("categoryFilter"), CATEGORIAS_HOTELES, "Todas las categorías");
 }
 
-// Carga las categorías en el filtro de búsqueda
-function updateCategoryFilter() {
-    const categoryFilter = document.getElementById("categoryFilter"); // Obtiene el elemento select para el filtro de categorías
-    if (categoryFilter) {
-        categoryFilter.innerHTML = `<option value="">Todas las categorías</option>`; // Agrega la opción predeterminada
-        categorias.forEach(categoria => {
-            const option = document.createElement("option"); // Crea un elemento de opción
-            option.value = categoria; // Establece el valor de la opción
-            option.textContent = categoria; // Establece el texto visible de la opción
-            categoryFilter.appendChild(option); // Agrega la opción al selector
-        });
-    }
+/**
+ * Carga las ciudades/países en los selectores correspondientes.
+ */
+function loadCiudadesPaises() {
+    const nombresCiudades = ciudadesPaises.map(c => c.nombre);
+    populateSelect(document.getElementById("hotelCiudadPais"), nombresCiudades, "Seleccione una ciudad/país");
+    populateSelect(document.getElementById("locationFilter"), nombresCiudades, "Todas las ubicaciones");
 }
 
-// Carga las ubicaciones en el filtro de búsqueda
-function updateLocationFilter() {
-    const locationFilter = document.getElementById("locationFilter"); // Obtiene el elemento select para el filtro de ubicaciones
-    if (locationFilter) {
-        locationFilter.innerHTML = `<option value="">Todas las ubicaciones</option>`; // Agrega la opción predeterminada
-        ciudadesPaises.forEach(ciudadPais => {
-            const option = document.createElement("option"); // Crea un elemento de opción
-            option.value = ciudadPais.paisName; // Establece el valor de la opción como el nombre de la ciudad/país
-            option.textContent = ciudadPais.paisName; // Establece el texto visible como el nombre de la ciudad/país
-            locationFilter.appendChild(option); // Agrega la opción al selector
-        });
-    }
-}
+/**
+ * Actualiza y renderiza las tarjetas de ciudades/países en el DOM.
+ */
+function renderCiudadPaisCards() {
+    const container = document.getElementById("paisCardsContainer");
+    if (!container) return;
 
-// Maneja el formulario para agregar ciudades/países
-const paisForm = document.getElementById("addPaisForm"); // Obtiene el formulario para agregar ciudades/países
-paisForm.addEventListener("submit", e => {
-    e.preventDefault(); // Evita el envío predeterminado del formulario
-    const paisName = document.getElementById("paisName").value; // Obtiene el nombre de la ciudad/país
-    const paisLogoFile = document.getElementById("paisLogo").files[0]; // Obtiene el archivo del logo
-    const paisLogo = paisLogoFile ? URL.createObjectURL(paisLogoFile) : "assets/images/default-team.jpg"; // Genera la URL del logo o usa una imagen predeterminada
-
-    if (!paisName) {
-        alert("Por favor, ingrese el nombre de la ciudad/país."); // Muestra un mensaje si el nombre está vacío
-        return; // Finaliza la ejecución
-    }
-
-    const ciudadPais = { paisName, paisLogo }; // Crea un objeto ciudad/país
-    ciudadesPaises.push(ciudadPais); // Agrega la ciudad/país a la lista
-    updatePaisCards(); // Actualiza las tarjetas de ciudades/países
-    updatePaisSelect(); // Actualiza el selector de ciudades/países
-    
-    // Incrementar estadísticas si hay sistema de perfil
-    if (typeof window.AuthSystem !== 'undefined') {
-        window.AuthSystem.incrementarEstadistica('ubicacion');
-    }
-    
-    paisForm.reset(); // Resetea el formulario
-});
-
-// Actualiza la visualización de las ciudades/países
-function updatePaisCards() {
-    const paisContainer = document.getElementById("paisCardsContainer"); // Obtiene el contenedor de tarjetas de ciudades/países
-    paisContainer.innerHTML = ""; // Limpia el contenido existente
-    ciudadesPaises.forEach(ciudadPais => {
-        const card = `<div class="pais-card">
-            <img src="${ciudadPais.paisLogo}" alt="${ciudadPais.paisName}" style="width: 100px; height: 100px; border-radius: 50%;"> <!-- Imagen del logo de la ciudad/país -->
-            <h3>${ciudadPais.paisName}</h3> <!-- Nombre de la ciudad/país -->
-        </div>`;
-        paisContainer.innerHTML += card; // Agrega la tarjeta al contenedor
-=======
-// Listas para almacenar datos de hoteles y ciudades
-const hoteles = []; // Lista de hoteles
-const ciudades = []; // Lista de ciudades
-
-// Opciones para capital
-const capitalOptions = ["Si", "No"];
-
-// Carga las opciones de capital en el formulario
-function loadCapitalOptions() {
-    const capitalSelect = document.getElementById("hotelCapital");
-    capitalSelect.innerHTML = `<option value="">¿Es capital?</option>`;
-    capitalOptions.forEach(option => {
-        const opt = document.createElement("option");
-        opt.value = option;
-        opt.textContent = option;
-        capitalSelect.appendChild(opt);
-    });
-}
-
-// Carga las ciudades en el selector del formulario de hoteles
-function updateCiudadSelect() {
-    const ciudadSelect = document.getElementById("hotelCiudad");
-    ciudadSelect.innerHTML = `<option value="">Seleccione una ciudad</option>`;
-    ciudades.forEach(ciudad => {
-        const option = document.createElement("option");
-        option.value = ciudad.ciudadName;
-        option.textContent = ciudad.ciudadName;
-        ciudadSelect.appendChild(option);
-    });
-}
-
-// Maneja el formulario para agregar ciudades
-const ciudadForm = document.getElementById("addCiudadForm");
-ciudadForm.addEventListener("submit", e => {
-    e.preventDefault();
-    const ciudadName = document.getElementById("ciudadName").value;
-    const ciudadLogoFile = document.getElementById("ciudadLogo").files[0];
-    const ciudadLogo = ciudadLogoFile ? URL.createObjectURL(ciudadLogoFile) : "assets/images/default-city.jpg";
-
-    if (!ciudadName) {
-        alert("Por favor, ingrese el nombre de la ciudad.");
+    // Si no hay ciudades, muestra un mensaje
+    if (ciudadesPaises.length === 0) {
+        container.innerHTML = '<p>No hay ciudades o países registrados todavía.</p>';
         return;
     }
 
-    const ciudad = { ciudadName, ciudadLogo };
-    ciudades.push(ciudad);
-    updateCiudadCards();
-    updateCiudadSelect();
-    ciudadForm.reset();
-});
-
-// Actualiza la visualización de las ciudades
-function updateCiudadCards() {
-    const ciudadContainer = document.getElementById("ciudadCardsContainer");
-    ciudadContainer.innerHTML = "";
-    ciudades.forEach(ciudad => {
-        const card = `<div class="ciudad-card">
-            <img src="${ciudad.ciudadLogo}" alt="${ciudad.ciudadName}" style="width: 100px; height: 100px; border-radius: 50%;">
-            <h3>${ciudad.ciudadName}</h3>
-        </div>`;
-        ciudadContainer.innerHTML += card;
->>>>>>> 9b33cbbe531c86e1e5dedaa30026ae75b8d6d9bd
-    });
+    // Genera todo el HTML de una vez para mejorar el rendimiento
+    const cardsHTML = ciudadesPaises.map(ciudad => `
+        <div class="pais-card">
+            <img src="${ciudad.logo}" alt="Logo de ${ciudad.nombre}">
+            <h3>${ciudad.nombre}</h3>
+        </div>
+    `).join('');
+    
+    container.innerHTML = cardsHTML;
 }
 
-// Maneja el formulario para agregar hoteles
-<<<<<<< HEAD
-const playerForm = document.getElementById("addCiudadForm"); // Obtiene el formulario para agregar hoteles
-playerForm.addEventListener("submit", e => {
-    e.preventDefault(); // Evita el envío predeterminado del formulario
-    const hotelName = document.getElementById("ciudadName").value; // Obtiene el nombre del hotel
-    const direccion = document.getElementById("ciudadCapital").value; // Obtiene la dirección
-    const categoria = document.getElementById("ciudadPosition").value; // Obtiene la categoría del hotel
-    const ciudadPais = document.getElementById("ciudadPais").value; // Obtiene la ciudad/país seleccionado
-    const photoFile = document.getElementById("ciudadPhoto").files[0]; // Obtiene el archivo de la foto
-    const photo = photoFile ? URL.createObjectURL(photoFile) : "assets/images/default-player.jpg"; // Genera la URL de la foto o usa una imagen predeterminada
-
-    if (!hotelName || !direccion || !categoria || !ciudadPais) {
-        alert("Por favor, complete todos los campos obligatorios."); // Muestra un mensaje si falta algún campo obligatorio
-        return; // Finaliza la ejecución
-    }
-
-    const hotel = { hotelName, direccion, categoria, ciudadPais, photo }; // Crea un objeto hotel
-    hoteles.push(hotel); // Agrega el hotel a la lista
-    updateCiudadTable(); // Actualiza la tabla de hoteles
+/**
+ * Actualiza y renderiza la tabla de hoteles en el DOM.
+ * @param {object[]} hotelesAMostrar - La lista de hoteles que se deben mostrar (puede ser la lista filtrada).
+ */
+function renderHotelTable(hotelesAMostrar = hoteles) {
+    const tableBody = document.getElementById("hotelTableBody");
+    if (!tableBody) return;
     
-    // Incrementar estadísticas si hay sistema de perfil
-    if (typeof window.AuthSystem !== 'undefined') {
-        window.AuthSystem.incrementarEstadistica('hotel');
-    }
-    
-    playerForm.reset(); // Resetea el formulario
-});
+    // Actualiza el contador de resultados
+    updateResultsCounter(hotelesAMostrar.length, hoteles.length);
 
-// Actualiza la tabla de hoteles
-function updateCiudadTable(hotelesAMostrar = hoteles) {
-    const hotelTable = document.getElementById("ciudadTableBody"); // Obtiene el cuerpo de la tabla de hoteles
-    hotelTable.innerHTML = ""; // Limpia el contenido existente
-    
     if (hotelesAMostrar.length === 0) {
-        const row = `<tr>
-            <td colspan="5" style="text-align: center; color: #8892a0; font-style: italic; padding: 30px;">
-                No se encontraron hoteles que coincidan con los filtros seleccionados 🏨
-            </td>
-        </tr>`;
-        hotelTable.innerHTML = row;
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="5" style="text-align: center; color: #8892a0; padding: 30px;">
+                    🏨 No se encontraron hoteles que coincidan con los filtros.
+                </td>
+            </tr>`;
         return;
     }
-    
-    hotelesAMostrar.forEach(hotel => {
-        // Generar clase CSS válida para la categoría
-        const categoryClass = hotel.categoria
-            .toLowerCase()
-            .replace(/\s+/g, '')
-            .replace('1estrella', 'estrella1')
-            .replace('2estrellas', 'estrellas2')
-            .replace('3estrellas', 'estrellas3')
-            .replace('4estrellas', 'estrellas4')
-            .replace('5estrellas', 'estrellas5');
-            
-        const row = `<tr>
-            <td><img src="${hotel.photo}" alt="${hotel.hotelName}" style="width: 50px; height: 50px; border-radius: 50%;"></td>
-            <td>${hotel.hotelName}</td>
-            <td>${hotel.direccion}</td>
-            <td><span class="categoria-badge ${categoryClass}">${hotel.categoria}</span></td>
-            <td>${hotel.ciudadPais}</td>
-        </tr>`;
-        hotelTable.innerHTML += row; // Agrega la fila a la tabla
-    });
+
+    const rowsHTML = hotelesAMostrar.map(hotel => {
+        // Genera una clase CSS válida a partir del nombre de la categoría
+        const categoryClass = hotel.categoria.toLowerCase().replace(/\s+/g, '-');
+        
+        return `
+            <tr>
+                <td><img src="${hotel.foto}" alt="Foto de ${hotel.nombre}"></td>
+                <td>${hotel.nombre}</td>
+                <td>${hotel.direccion}</td>
+                <td><span class="categoria-badge ${categoryClass}">${hotel.categoria}</span></td>
+                <td>${hotel.ciudadPais}</td>
+            </tr>`;
+    }).join('');
+
+    tableBody.innerHTML = rowsHTML;
 }
 
-// Función para filtrar y buscar hoteles
-function filterAndSearchHotels() {
-    const searchTerm = document.getElementById("searchInput").value.toLowerCase().trim();
-    const categoryFilter = document.getElementById("categoryFilter").value;
-    const locationFilter = document.getElementById("locationFilter").value;
-    
-    let filteredHoteles = hoteles.filter(hotel => {
-        const matchesSearch = searchTerm === "" || 
-            hotel.hotelName.toLowerCase().includes(searchTerm) ||
-            hotel.direccion.toLowerCase().includes(searchTerm) ||
-            hotel.ciudadPais.toLowerCase().includes(searchTerm);
-            
-        const matchesCategory = categoryFilter === "" || hotel.categoria === categoryFilter;
-        const matchesLocation = locationFilter === "" || hotel.ciudadPais === locationFilter;
-        
-        return matchesSearch && matchesCategory && matchesLocation;
-    });
-    
-    updateCiudadTable(filteredHoteles);
-    
-    // Incrementar estadísticas de búsqueda si hay sistema de perfil
-    if (typeof window.AuthSystem !== 'undefined' && searchTerm !== "") {
-        window.AuthSystem.incrementarEstadistica('busqueda');
-    }
-    
-    // Mostrar contador de resultados
-    const resultsCount = filteredHoteles.length;
+/**
+ * Muestra u oculta el contador de resultados de búsqueda.
+ * @param {number} filteredCount - El número de resultados después de filtrar.
+ * @param {number} totalCount - El número total de hoteles.
+ */
+function updateResultsCounter(filteredCount, totalCount) {
     const searchSection = document.getElementById("search-section");
-    let counterElement = searchSection.querySelector(".results-counter");
+    if (!searchSection) return;
     
+    let counterElement = searchSection.querySelector(".results-counter");
     if (!counterElement) {
         counterElement = document.createElement("div");
         counterElement.className = "results-counter";
         searchSection.appendChild(counterElement);
     }
-    
-    counterElement.innerHTML = `<p style="color: #103778; font-weight: 600; margin-top: 15px; text-align: center;">
-        📊 Mostrando ${resultsCount} hotel${resultsCount !== 1 ? 'es' : ''} ${resultsCount === hoteles.length ? '' : 'filtrado' + (resultsCount !== 1 ? 's' : '')}
-    </p>`;
-}
 
-// Función para limpiar todos los filtros
-function clearAllFilters() {
-    document.getElementById("searchInput").value = "";
-    document.getElementById("categoryFilter").value = "";
-    document.getElementById("locationFilter").value = "";
-    
-    // Actualizar tabla con todos los hoteles
-    updateCiudadTable(hoteles);
-    
-    // Limpiar contador
-    const counterElement = document.querySelector(".results-counter");
-    if (counterElement) {
-        counterElement.remove();
+    if (filteredCount === totalCount && document.getElementById("searchInput").value === "") {
+        counterElement.style.display = 'none'; // Ocultar si no hay filtro activo
+    } else {
+        counterElement.style.display = 'block';
+        const plural = filteredCount !== 1 ? 'es' : '';
+        counterElement.innerHTML = `📊 Mostrando ${filteredCount} hotel${plural}.`;
     }
 }
 
-// Inicializa el sistema al cargar la página
-document.addEventListener("DOMContentLoaded", () => {
-    loadPositions(); // Carga las categorías en el selector
-    updatePaisSelect(); // Carga las ciudades/países en el selector
-    updateCategoryFilter(); // Carga las categorías en el filtro de búsqueda
-    
-    // Event listeners para la búsqueda y filtros
-    const searchButton = document.getElementById("searchButton");
-    const clearButton = document.getElementById("clearFiltersButton");
-    const searchInput = document.getElementById("searchInput");
-    const categoryFilter = document.getElementById("categoryFilter");
-    const locationFilter = document.getElementById("locationFilter");
-    
-    // Búsqueda al hacer clic en el botón
-    if (searchButton) {
-        searchButton.addEventListener("click", filterAndSearchHotels);
-    }
-    
-    // Limpiar filtros
-    if (clearButton) {
-        clearButton.addEventListener("click", clearAllFilters);
-    }
-    
-    // Búsqueda en tiempo real al escribir (con un pequeño retraso)
-    if (searchInput) {
-        let searchTimeout;
-        searchInput.addEventListener("input", () => {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(filterAndSearchHotels, 300);
-        });
-    }
-    
-    // Filtrado en tiempo real al cambiar los selectores
-    if (categoryFilter) {
-        categoryFilter.addEventListener("change", filterAndSearchHotels);
-    }
-    
-    if (locationFilter) {
-        locationFilter.addEventListener("change", filterAndSearchHotels);
-    }
-=======
-const hotelForm = document.getElementById("addHotelForm");
-hotelForm.addEventListener("submit", e => {
-    e.preventDefault();
-    const hotelName = document.getElementById("hotelName").value;
-    const hotelPostal = document.getElementById("hotelPostal").value;
-    const hotelCapital = document.getElementById("hotelCapital").value;
-    const ciudad = document.getElementById("hotelCiudad").value;
-    const photoFile = document.getElementById("hotelPhoto").files[0];
-    const photo = photoFile ? URL.createObjectURL(photoFile) : "assets/images/default-hotel.jpg";
 
-    if (!hotelName || !hotelPostal || !hotelCapital || !ciudad) {
+// =================================================================
+// 3. MANEJADORES DE EVENTOS Y LÓGICA DE FORMULARIOS
+// =================================================================
+
+/**
+ * Maneja el envío del formulario para agregar una nueva ciudad/país.
+ */
+function handleAddCiudadPais(event) {
+    event.preventDefault();
+    const form = event.target;
+    const nombreInput = document.getElementById("paisName");
+    const logoInput = document.getElementById("paisLogo");
+
+    const nombre = nombreInput.value.trim();
+    if (!nombre) {
+        alert("Por favor, ingrese el nombre de la ciudad/país.");
+        return;
+    }
+
+    const logoFile = logoInput.files[0];
+    const logo = logoFile ? URL.createObjectURL(logoFile) : "assets/images/default-team.jpg";
+
+    ciudadesPaises.push({ nombre, logo });
+    
+    // Actualizar la interfaz
+    renderCiudadPaisCards();
+    loadCiudadesPaises();
+    
+    form.reset();
+}
+
+/**
+ * Maneja el envío del formulario para agregar un nuevo hotel.
+ */
+function handleAddHotel(event) {
+    event.preventDefault();
+    const form = event.target;
+    
+    // Obtener valores del formulario
+    const nombre = document.getElementById("hotelName").value.trim();
+    const direccion = document.getElementById("hotelDireccion").value.trim();
+    const categoria = document.getElementById("hotelCategoria").value;
+    const ciudadPais = document.getElementById("hotelCiudadPais").value;
+    const fotoFile = document.getElementById("hotelPhoto").files[0];
+    const foto = fotoFile ? URL.createObjectURL(fotoFile) : "assets/images/default-player.jpg";
+
+    if (!nombre || !direccion || !categoria || !ciudadPais) {
         alert("Por favor, complete todos los campos obligatorios.");
         return;
     }
 
-    const hotel = { hotelName, hotelPostal, hotelCapital, ciudad, photo };
-    hoteles.push(hotel);
-    updateHotelTable();
-    hotelForm.reset();
-});
-
-// Actualiza la tabla de hoteles
-function updateHotelTable() {
-    const hotelTable = document.getElementById("hotelTableBody");
-    hotelTable.innerHTML = "";
-    hoteles.forEach(hotel => {
-        const row = `<tr>
-            <td><img src="${hotel.photo}" alt="${hotel.hotelName}" style="width: 50px; height: 50px; border-radius: 50%;"></td>
-            <td>${hotel.hotelName}</td>
-            <td>${hotel.hotelPostal}</td>
-            <td>${hotel.hotelCapital}</td>
-            <td>${hotel.ciudad}</td>
-        </tr>`;
-        hotelTable.innerHTML += row;
-    });
+    hoteles.push({ nombre, direccion, categoria, ciudadPais, foto });
+    
+    // Actualizar la tabla y limpiar filtros para mostrar el nuevo hotel
+    clearAllFilters();
+    form.reset();
 }
 
-// Inicializa el sistema al cargar la página y el login local
-document.addEventListener("DOMContentLoaded", () => {
-    loadCapitalOptions();
-    updateCiudadSelect();
+/**
+ * Filtra los hoteles según los criterios de búsqueda y los muestra.
+ */
+function filterAndSearchHotels() {
+    const searchTerm = document.getElementById("searchInput").value.toLowerCase().trim();
+    const categoryFilter = document.getElementById("categoryFilter").value;
+    const locationFilter = document.getElementById("locationFilter").value;
 
-    const loginForm = document.getElementById('loginForm');
-    const loginContainer = document.getElementById('loginContainer');
-    const mainContent = document.getElementById('mainContent');
-    const loginError = document.getElementById('loginError');
+    const filteredHoteles = hoteles.filter(hotel => {
+        const matchesSearch = !searchTerm ||
+            hotel.nombre.toLowerCase().includes(searchTerm) ||
+            hotel.direccion.toLowerCase().includes(searchTerm) ||
+            hotel.ciudadPais.toLowerCase().includes(searchTerm);
 
-    // Usuario y contraseña local
-    const USER = 'admin';
-    const PASS = '1234';
+        const matchesCategory = !categoryFilter || hotel.categoria === categoryFilter;
+        const matchesLocation = !locationFilter || hotel.ciudadPais === locationFilter;
 
-    loginForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-
-        if (username === USER && password === PASS) {
-            loginContainer.style.display = 'none';
-            mainContent.style.display = 'block';
-        } else {
-            loginError.style.display = 'block';
-        }
+        return matchesSearch && matchesCategory && matchesLocation;
     });
->>>>>>> 9b33cbbe531c86e1e5dedaa30026ae75b8d6d9bd
+    
+    renderHotelTable(filteredHoteles);
+}
+
+/**
+ * Limpia todos los filtros de búsqueda y muestra todos los hoteles.
+ */
+function clearAllFilters() {
+    document.getElementById("searchInput").value = "";
+    document.getElementById("categoryFilter").value = "";
+    document.getElementById("locationFilter").value = "";
+    renderHotelTable(hoteles);
+}
+
+/**
+ * Maneja el intento de inicio de sesión.
+ */
+function handleLogin(event) {
+    event.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    if (username === USER_CREDENTIALS.username && password === USER_CREDENTIALS.password) {
+        document.getElementById('loginContainer').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+        // Una vez logueado, inicializar el resto de la app
+        initializeApp();
+    } else {
+        document.getElementById('loginError').style.display = 'block';
+    }
+}
+
+// =================================================================
+// 4. INICIALIZACIÓN DE LA APLICACIÓN
+// =================================================================
+
+/**
+ * Asigna los event listeners a los elementos del DOM.
+ */
+function setupEventListeners() {
+    // Formularios
+    document.getElementById("addPaisForm").addEventListener("submit", handleAddCiudadPais);
+    document.getElementById("addHotelForm").addEventListener("submit", handleAddHotel);
+    
+    // Controles de búsqueda
+    document.getElementById("searchButton").addEventListener("click", filterAndSearchHotels);
+    document.getElementById("clearFiltersButton").addEventListener("click", clearAllFilters);
+    
+    // Filtros con actualización en tiempo real
+    document.getElementById("searchInput").addEventListener("input", filterAndSearchHotels);
+    document.getElementById("categoryFilter").addEventListener("change", filterAndSearchHotels);
+    document.getElementById("locationFilter").addEventListener("change", filterAndSearchHotels);
+}
+
+/**
+ * Función principal que se ejecuta después de un inicio de sesión exitoso.
+ */
+function initializeApp() {
+    setupEventListeners();
+    loadHotelCategories();
+    loadCiudadesPaises();
+    renderCiudadPaisCards();
+    renderHotelTable();
+}
+
+// Event listener principal que se ejecuta cuando el DOM está listo.
+// Solo configura el formulario de login inicialmente.
+document.addEventListener("DOMContentLoaded", () => {
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', handleLogin);
+    }
 });
